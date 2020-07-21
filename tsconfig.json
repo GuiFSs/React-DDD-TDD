@@ -5,21 +5,13 @@
     "paths": {
       "@/*": ["*"]
     },
-    // "baseUrl": ".",
-    // "paths": {
-    //   "~/*": ["src/*"]
-    // },
-    "target": "es5",
+    "target": "ES6",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "esModuleInterop": true,
     "module": "ESNext",
     "moduleResolution": "node",
     "jsx": "react",
-    "skipLibCheck": true,
-    "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "noEmit": true
   },
   "include": ["src"]
 }
