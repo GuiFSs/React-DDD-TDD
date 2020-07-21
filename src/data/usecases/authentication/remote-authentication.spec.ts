@@ -5,14 +5,16 @@ import { mockAuthentication } from '@/domain/test/mock-authentication'
 import faker from 'faker'
 import { RemoteAuthentication } from './remote-authentication'
 import { UnexpectedError } from '@/domain/errors/unexpected-error'
+import { Authentication } from '@/domain/usecases/authentication'
+import { AccountModel } from '@/domain/models/account-models'
 
 interface SutTypes {
   sut: RemoteAuthentication
-  httpPostClientSpy: HttpPostClientSpy
+  httpPostClientSpy: HttpPostClientSpy<Authentication.Params, AccountModel>
 }
 
 const makeSut = (url: string = faker.internet.url()): SutTypes => {
-  const httpPostClientSpy = new HttpPostClientSpy()
+  const httpPostClientSpy = new HttpPostClientSpy<Authentication.Params, AccountModel>()
   // sut = System Under Test - object that we are testing in this class
   const sut = new RemoteAuthentication(url, httpPostClientSpy)
   return { sut, httpPostClientSpy }
