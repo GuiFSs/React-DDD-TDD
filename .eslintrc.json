@@ -15,6 +15,7 @@
     "@typescript-eslint/constent-type-definitions": "off",
     "@typescript-eslint/strict-boolean-expression": "off",
     "@typescript-eslint/no-namespace": "off",
+    "@typescript-eslint/camelcase": "off",
     "react/jsx-uses-react": "error",
     "react/jsx-uses-vars": "error"
   }
