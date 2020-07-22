@@ -1,6 +1,5 @@
 import React from 'react'
 import Styles from './styles.scss'
-import Spinner from '@/presentation/components/Spinner'
 import LoginHeader from '@/presentation/components/LoginHeader'
 import Footer from '@/presentation/components/footer'
 import Input from '@/presentation/components/Input'
