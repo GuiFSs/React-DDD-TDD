@@ -6,21 +6,31 @@ import Input from '@/presentation/components/Input'
 import FormStatus from '@/presentation/components/FormStatus'
 import Context from '@/presentation/contexts/form/formContext'
 
-interface StateProps {
+export interface LoginState {
   isLoading: boolean
-  errorMessage: string
+}
+
+export interface LoginErrorState {
+  email: string
+  password: string
+  main: string
 }
 
 const Login: React.FC = () => {
-  const [state] = useState<StateProps>({
-    isLoading: false,
-    errorMessage: ''
+  const [state] = useState<LoginState>({
+    isLoading: false
+  })
+
+  const [errorState] = useState<LoginErrorState>({
+    email: 'Campo obrigatório',
+    password: 'Campo obrigatório',
+    main: ''
   })
 
   return (
     <div className={Styles.login} >
       <LoginHeader />
-      <Context.Provider value={state} >
+      <Context.Provider value={{ state, errorState }} >
         <form className={Styles.form}>
           <h2>Login</h2>
           <Input
