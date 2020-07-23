@@ -1,12 +1,11 @@
-import React, { useContext } from 'react'
+import React, { useContext, useMemo } from 'react'
 import Spinner from '../Spinner'
 import Styles from './styles.scss'
 import Context from '@/presentation/contexts/form/formContext'
 
 const FormStatus: React.FC = () => {
-  const { state, errorState } = useContext(Context)
-  const { isLoading } = state
-  const { main: errorMessage } = errorState
+  const { state } = useContext(Context)
+  const { isLoading, mainError } = useMemo(() => state, [state])
 
   return (
     <div data-testid="error-wrap" className={Styles.errorWrap}>
@@ -15,8 +14,8 @@ const FormStatus: React.FC = () => {
           className={Styles.spinner}
         />
       )}
-      {errorMessage && (
-        <span className={Styles.error}>{errorMessage}</span>
+      {mainError && (
+        <span className={Styles.error}>{mainError}</span>
       )}
     </div>
   )

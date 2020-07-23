@@ -5,9 +5,17 @@ import Styles from './styles.scss'
 type Props = React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
 
 const Input: React.FC<Props> = (props: Props) => {
-  const { errorState } = useContext(Context)
+  const { state, setState } = useContext(Context)
 
-  const error = useMemo(() => errorState[props.name], [props.name, errorState])
+  function handleChange (event: React.ChangeEvent<HTMLInputElement>): void {
+    const { name, value } = event.target
+    setState({
+      ...state,
+      [name]: value
+    })
+  }
+
+  const error = useMemo(() => state[`${props.name}Error`], [props.name, state])
 
   const status = useMemo(() => {
     return '🔴'
@@ -15,7 +23,9 @@ const Input: React.FC<Props> = (props: Props) => {
 
   return (
     <div className={Styles.inputWrap} >
-      <input {...props} />
+      <input {...props} data-testid={props.name}
+        onChange={handleChange}
+      />
       <span
         data-testid={`${props.name}-status`}
         title={error}

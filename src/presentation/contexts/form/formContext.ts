@@ -1,9 +1,9 @@
 import { createContext } from 'react'
-import { LoginState, LoginErrorState } from '@/presentation/pages/Login'
+import { LoginState } from '@/presentation/pages/Login'
 
 export interface FormContext {
   state: LoginState
-  errorState: LoginErrorState
+  setState(newState: LoginState): void
 }
 
 export default createContext<FormContext>(null)
