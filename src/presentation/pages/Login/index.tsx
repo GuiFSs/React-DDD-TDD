@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import Styles from './styles.scss'
 import LoginHeader from '@/presentation/components/LoginHeader'
 import Footer from '@/presentation/components/footer'
@@ -44,6 +44,10 @@ const Login: React.FC<Props> = ({ validation }: Props) => {
     }))
   }, [state.password])
 
+  const isLoginBtnDisabled = useMemo(() => {
+    return !!state.emailError || !!state.passwordError
+  }, [state.emailError, state.passwordError])
+
   return (
     <div className={Styles.login} >
       <LoginHeader />
@@ -66,12 +70,12 @@ const Login: React.FC<Props> = ({ validation }: Props) => {
             data-testid='submit'
             className={Styles.submit}
             type='submit'
-            disabled
+            disabled={isLoginBtnDisabled}
           >
             Entrar
           </button>
           <span className={Styles.link}>
-          Criar conta
+            Criar conta
           </span>
           <FormStatus />
         </form>
