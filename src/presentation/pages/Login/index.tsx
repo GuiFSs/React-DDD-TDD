@@ -44,6 +44,14 @@ const Login: React.FC<Props> = ({ validation }: Props) => {
     }))
   }, [state.password])
 
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+    event.preventDefault()
+    setState(prev => ({
+      ...prev,
+      isLoading: true
+    }))
+  }
+
   const isLoginBtnDisabled = useMemo(() => {
     return !!state.emailError || !!state.passwordError
   }, [state.emailError, state.passwordError])
@@ -52,7 +60,7 @@ const Login: React.FC<Props> = ({ validation }: Props) => {
     <div className={Styles.login} >
       <LoginHeader />
       <Context.Provider value={{ state, setState }} >
-        <form className={Styles.form}>
+        <form className={Styles.form} onSubmit={handleSubmit}>
           <h2>Login</h2>
           <Input
             type="email"
