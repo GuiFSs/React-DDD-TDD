@@ -15,7 +15,7 @@ const FormStatus: React.FC = () => {
         />
       )}
       {mainError && (
-        <span className={Styles.error}>{mainError}</span>
+        <span data-testid='main-error' className={Styles.error}>{mainError}</span>
       )}
     </div>
   )

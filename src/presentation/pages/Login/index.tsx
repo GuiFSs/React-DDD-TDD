@@ -48,18 +48,26 @@ const Login: React.FC<Props> = ({ validation, authentication }: Props) => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
-    if (state.isLoading || state.emailError || state.passwordError) {
-      return
+    try {
+      if (state.isLoading || state.emailError || state.passwordError) {
+        return
+      }
+      setState(prev => ({
+        ...prev,
+        isLoading: true
+      }))
+      const { email, password } = state
+      await authentication.auth({
+        email,
+        password
+      })
+    } catch (err) {
+      setState(prev => ({
+        ...prev,
+        isLoading: false,
+        mainError: err.message
+      }))
     }
-    setState(prev => ({
-      ...prev,
-      isLoading: true
-    }))
-    const { email, password } = state
-    await authentication.auth({
-      email,
-      password
-    })
   }
 
   const isLoginBtnDisabled = useMemo(() => {
