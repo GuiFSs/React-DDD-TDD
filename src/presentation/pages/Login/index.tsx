@@ -6,9 +6,11 @@ import Input from '@/presentation/components/Input'
 import FormStatus from '@/presentation/components/FormStatus'
 import Context from '@/presentation/contexts/form/formContext'
 import { Validation } from '@/presentation/protocols/validation'
+import { Authentication } from '@/domain/usecases'
 
 interface Props {
   validation: Validation
+  authentication: Authentication
 }
 
 export interface LoginState {
@@ -20,7 +22,7 @@ export interface LoginState {
   mainError: string
 }
 
-const Login: React.FC<Props> = ({ validation }: Props) => {
+const Login: React.FC<Props> = ({ validation, authentication }: Props) => {
   const [state, setState] = useState<LoginState>({
     isLoading: false,
     email: '',
@@ -44,12 +46,17 @@ const Login: React.FC<Props> = ({ validation }: Props) => {
     }))
   }, [state.password])
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
     setState(prev => ({
       ...prev,
       isLoading: true
     }))
+    const { email, password } = state
+    await authentication.auth({
+      email,
+      password
+    })
   }
 
   const isLoginBtnDisabled = useMemo(() => {
