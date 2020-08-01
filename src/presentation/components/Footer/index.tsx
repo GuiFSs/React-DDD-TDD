@@ -1,10 +1,11 @@
 import React, { memo } from 'react'
 import Styles from './styles.scss'
 
-const Footer: React.FC = () => {
+const _Footer: React.FC = () => {
   return (
     <footer className={Styles.footer}/>
   )
 }
+const Footer = memo(_Footer)
 
-export default memo(Footer)
+export default Footer
