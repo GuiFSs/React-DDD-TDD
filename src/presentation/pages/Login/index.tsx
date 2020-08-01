@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import Styles from './styles.scss'
 import LoginHeader from '@/presentation/components/LoginHeader'
-import Footer from '@/presentation/components/footer'
+import Footer from '@/presentation/components/Footer'
 import Input from '@/presentation/components/Input'
 import FormStatus from '@/presentation/components/FormStatus'
 import Context from '@/presentation/contexts/form/formContext'
