@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/GuiFSs/React-DDD-TDD.svg?branch=master)](https://travis-ci.org/GuiFSs/React-DDD-TDD)
+[![Build Status](https://travis-ci.org/GuiFSs/React-DDD-TDD.svg?branch=master)](https://travis-ci.org/GuiFSs/React-DDD-TDD) [![Coverage Status](https://coveralls.io/repos/github/GuiFSs/React-DDD-TDD/badge.svg?branch=master)](https://coveralls.io/github/GuiFSs/React-DDD-TDD?branch=master)
 
 # **4Dev React - Enquetes para Programadores**
 
