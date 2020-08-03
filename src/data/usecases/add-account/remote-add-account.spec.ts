@@ -1,9 +1,11 @@
+import { HttpStatusCode } from '@/data/protocols/http'
 import { HttpPostClientSpy } from '@/data/test'
 import { AccountModel } from '@/domain/models'
 import { AddAccount } from '@/domain/usecases'
 import { mockAddAccountParams } from '@/domain/test'
 import { RemoteAddAccount } from './remote-add-account'
 import faker from 'faker'
+import { EmailInUseError } from '@/domain/errors'
 
 interface SutTypes {
   sut: RemoteAddAccount
@@ -30,5 +32,14 @@ describe('RemoteAddAccount', () => {
     const addAccountParams = mockAddAccountParams()
     await sut.add(addAccountParams)
     expect(httpPostClientSpy.body).toEqual(addAccountParams)
+  })
+
+  test('Should throw EmailInuseError if HttpPostClient returns 403', async () => {
+    const { httpPostClientSpy, sut } = makeSut()
+    httpPostClientSpy.response = {
+      statusCode: HttpStatusCode.forbidden
+    }
+    const promise = sut.add(mockAddAccountParams())
+    await expect(promise).rejects.toThrow(new EmailInUseError())
   })
 })
