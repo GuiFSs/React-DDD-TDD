@@ -6,12 +6,14 @@ import Input from '@/presentation/components/Input'
 import FormStatus from '@/presentation/components/FormStatus'
 import Context from '@/presentation/contexts/form/formContext'
 import { Validation } from '@/presentation/protocols/validation'
+import { AddAccount } from '@/domain/usecases'
 
 interface Props {
   validation: Validation
+  addAccount: AddAccount
 }
 
-const Signup: React.FC<Props> = ({ validation }: Props) => {
+const Signup: React.FC<Props> = ({ validation, addAccount }: Props) => {
   const [state, setState] = useState({
     isLoading: false,
     name: '',
@@ -59,6 +61,13 @@ const Signup: React.FC<Props> = ({ validation }: Props) => {
       ...prev,
       isLoading: true
     }))
+    const { email, name, password, passwordConfirmation } = state
+    await addAccount.add({
+      name,
+      email,
+      password,
+      passwordConfirmation
+    })
   }
 
   const isLoginBtnDisabled = useMemo(() => {
