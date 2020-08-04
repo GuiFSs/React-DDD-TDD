@@ -57,18 +57,27 @@ const Signup: React.FC<Props> = ({ validation, addAccount }: Props) => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
-    const { email, name, password, passwordConfirmation, isLoading, nameError, emailError, passwordError, passwordConfirmationError } = state
-    if (isLoading || nameError || emailError || passwordError || passwordConfirmationError) return
-    setState(prev => ({
-      ...prev,
-      isLoading: true
-    }))
-    await addAccount.add({
-      name,
-      email,
-      password,
-      passwordConfirmation
-    })
+    try {
+      const { email, name, password, passwordConfirmation, isLoading, nameError, emailError, passwordError, passwordConfirmationError } = state
+      if (isLoading || nameError || emailError || passwordError || passwordConfirmationError) return
+
+      setState(prev => ({
+        ...prev,
+        isLoading: true
+      }))
+      await addAccount.add({
+        name,
+        email,
+        password,
+        passwordConfirmation
+      })
+    } catch (error) {
+      setState(prev => ({
+        ...prev,
+        isLoading: false,
+        mainError: error.message
+      }))
+    }
   }
 
   const isLoginBtnDisabled = useMemo(() => {
