@@ -8,6 +8,7 @@ import Context from '@/presentation/contexts/form/formContext'
 import { Validation } from '@/presentation/protocols/validation'
 import { AddAccount, SaveAccessToken } from '@/domain/usecases'
 import { useHistory, Link } from 'react-router-dom'
+import SubmitButton from '@/presentation/components/SubmitButton'
 
 interface Props {
   validation: Validation
@@ -29,6 +30,11 @@ const Signup: React.FC<Props> = ({ validation, addAccount,saveAccessToken }: Pro
     passwordConfirmationError: '',
     mainError: ''
   })
+
+  const isFormInvalid = useMemo(() => {
+    const { nameError, emailError, passwordError, passwordConfirmationError } = state
+    return !!nameError || !!emailError || !!passwordError || !!passwordConfirmationError
+  }, [state])
 
   useEffect(() => {
     setState(prev => ({
@@ -61,8 +67,8 @@ const Signup: React.FC<Props> = ({ validation, addAccount,saveAccessToken }: Pro
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
     try {
-      const { email, name, password, passwordConfirmation, isLoading, nameError, emailError, passwordError, passwordConfirmationError } = state
-      if (isLoading || nameError || emailError || passwordError || passwordConfirmationError) return
+      const { email, name, password, passwordConfirmation, isLoading } = state
+      if (isLoading || isFormInvalid) return
 
       setState(prev => ({
         ...prev,
@@ -84,10 +90,6 @@ const Signup: React.FC<Props> = ({ validation, addAccount,saveAccessToken }: Pro
       }))
     }
   }
-
-  const isLoginBtnDisabled = useMemo(() => {
-    return !!state.nameError || !!state.emailError || !!state.passwordError || !!state.passwordConfirmationError
-  }, [state.emailError, state.passwordError])
 
   return (
     <div className={Styles.signup} >
@@ -115,14 +117,10 @@ const Signup: React.FC<Props> = ({ validation, addAccount,saveAccessToken }: Pro
             name="passwordConfirmation"
             placeholder="Repita sua senha"
           />
-          <button
-            data-testid='submit'
-            disabled={isLoginBtnDisabled}
-            className={Styles.submit}
-            type='submit'
-          >
-            Cadastrar
-          </button>
+          <SubmitButton
+            text='Cadastrar'
+            disabled={isFormInvalid}
+          />
           <Link data-testid="login-link" replace to='/login' className={Styles.link} >
             Voltar Para Login
           </Link>

@@ -8,6 +8,7 @@ import Context from '@/presentation/contexts/form/formContext'
 import { Validation } from '@/presentation/protocols/validation'
 import { Authentication,SaveAccessToken } from '@/domain/usecases'
 import { Link, useHistory } from 'react-router-dom'
+import SubmitButton from '@/presentation/components/SubmitButton'
 
 interface Props {
   validation: Validation
@@ -34,6 +35,9 @@ const Login: React.FC<Props> = ({ validation, authentication, saveAccessToken }:
     passwordError: '',
     mainError: ''
   })
+  const isFormInValid = useMemo(() => {
+    return !!state.emailError || !!state.passwordError
+  }, [state.emailError, state.passwordError])
 
   useEffect(() => {
     setState(prev => ({
@@ -52,7 +56,7 @@ const Login: React.FC<Props> = ({ validation, authentication, saveAccessToken }:
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
     try {
-      if (state.isLoading || state.emailError || state.passwordError) return
+      if (state.isLoading || isFormInValid) return
 
       setState(prev => ({
         ...prev,
@@ -74,10 +78,6 @@ const Login: React.FC<Props> = ({ validation, authentication, saveAccessToken }:
     }
   }
 
-  const isLoginBtnDisabled = useMemo(() => {
-    return !!state.emailError || !!state.passwordError
-  }, [state.emailError, state.passwordError])
-
   return (
     <div className={Styles.login} >
       <LoginHeader />
@@ -96,14 +96,10 @@ const Login: React.FC<Props> = ({ validation, authentication, saveAccessToken }:
             id=""
             placeholder="Digite sua senha"
           />
-          <button
-            data-testid='submit'
-            className={Styles.submit}
-            type='submit'
-            disabled={isLoginBtnDisabled}
-          >
-            Entrar
-          </button>
+          <SubmitButton
+            text='Entrar'
+            disabled={isFormInValid}
+          />
           <Link data-testid="signup-link" to='/signup' className={Styles.link} >
             Criar conta
           </Link>
