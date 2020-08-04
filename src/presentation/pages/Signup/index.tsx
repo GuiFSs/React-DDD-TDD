@@ -6,14 +6,17 @@ import Input from '@/presentation/components/Input'
 import FormStatus from '@/presentation/components/FormStatus'
 import Context from '@/presentation/contexts/form/formContext'
 import { Validation } from '@/presentation/protocols/validation'
-import { AddAccount } from '@/domain/usecases'
+import { AddAccount, SaveAccessToken } from '@/domain/usecases'
+import { useHistory } from 'react-router-dom'
 
 interface Props {
   validation: Validation
   addAccount: AddAccount
+  saveAccessToken: SaveAccessToken
 }
 
-const Signup: React.FC<Props> = ({ validation, addAccount }: Props) => {
+const Signup: React.FC<Props> = ({ validation, addAccount,saveAccessToken }: Props) => {
+  const history = useHistory()
   const [state, setState] = useState({
     isLoading: false,
     name: '',
@@ -65,12 +68,14 @@ const Signup: React.FC<Props> = ({ validation, addAccount }: Props) => {
         ...prev,
         isLoading: true
       }))
-      await addAccount.add({
+      const account = await addAccount.add({
         name,
         email,
         password,
         passwordConfirmation
       })
+      await saveAccessToken.save(account.accessToken)
+      history.replace('/')
     } catch (error) {
       setState(prev => ({
         ...prev,
