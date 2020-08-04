@@ -5,24 +5,14 @@ import Footer from '@/presentation/components/Footer'
 import Input from '@/presentation/components/Input'
 import FormStatus from '@/presentation/components/FormStatus'
 import Context from '@/presentation/contexts/form/formContext'
-import { Link } from 'react-router-dom'
-
-export interface LoginState {
-  isLoading: boolean
-  email: string
-  password: string
-  emailError: string
-  passwordError: string
-  mainError: string
-}
 
 const Signup: React.FC = () => {
-  const [state, setState] = useState<LoginState>({
+  const [state, setState] = useState({
     isLoading: false,
-    email: '',
-    password: '',
-    emailError: '',
-    passwordError: '',
+    nameError: 'Campo obrigatório',
+    emailError: 'Campo obrigatório',
+    passwordError: 'Campo obrigatório',
+    passwordConfirmationError: 'Campo obrigatório',
     mainError: ''
   })
 
@@ -53,14 +43,16 @@ const Signup: React.FC = () => {
             placeholder="Repita sua senha"
           />
           <button
+            data-testid='submit'
+            disabled
             className={Styles.submit}
             type='submit'
           >
             Cadastrar
           </button>
-          <Link to='/login' className={Styles.link} >
+          <span className={Styles.link} >
             Voltar Para Login
-          </Link>
+          </span>
           <FormStatus />
         </form>
       </Context.Provider>
