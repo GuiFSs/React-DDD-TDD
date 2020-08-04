@@ -53,6 +53,14 @@ const Signup: React.FC<Props> = ({ validation }: Props) => {
     }))
   }, [state.passwordConfirmation])
 
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
+    event.preventDefault()
+    setState(prev => ({
+      ...prev,
+      isLoading: true
+    }))
+  }
+
   const isLoginBtnDisabled = useMemo(() => {
     return !!state.nameError || !!state.emailError || !!state.passwordError || !!state.passwordConfirmationError
   }, [state.emailError, state.passwordError])
@@ -61,7 +69,7 @@ const Signup: React.FC<Props> = ({ validation }: Props) => {
     <div className={Styles.signup} >
       <LoginHeader />
       <Context.Provider value={{ state, setState }} >
-        <form className={Styles.form} >
+        <form data-testid="form" className={Styles.form} onSubmit={handleSubmit} >
           <h2>Criar Conta</h2>
           <Input
             type="text"
