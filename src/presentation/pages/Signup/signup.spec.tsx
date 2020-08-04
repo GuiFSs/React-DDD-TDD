@@ -1,10 +1,11 @@
 import React from 'react'
 import Signup from '.'
 import { RenderResult,render, cleanup, fireEvent, waitFor } from '@testing-library/react'
-import { Helper, ValidationSpy } from '@/presentation/test'
+import { Helper, ValidationSpy,AddAccountSpy } from '@/presentation/test'
 import faker from 'faker'
 interface SutTypes {
   sut: RenderResult
+  addAccountSpy: AddAccountSpy
 }
 
 interface SutParams {
@@ -14,13 +15,16 @@ interface SutParams {
 const makeSut = (params?: SutParams): SutTypes => {
   const validationSpy = new ValidationSpy()
   validationSpy.errorMessage = params?.validationError
+  const addAccountSpy = new AddAccountSpy()
   const sut = render(
     <Signup
       validation={validationSpy}
+      addAccount={addAccountSpy}
     />
   )
   return {
-    sut
+    sut,
+    addAccountSpy
   }
 }
 
@@ -131,5 +135,20 @@ describe('Signup component', () => {
     await simulateValidSubmit(sut)
 
     Helper.testElementExists(sut, 'spinner')
+  })
+
+  test('Should call AddAccount with correct values', async () => {
+    const { sut, addAccountSpy } = makeSut()
+    const name = faker.name.findName()
+    const email = faker.internet.email()
+    const password = faker.internet.password()
+    await simulateValidSubmit(sut, name, email,password)
+
+    expect(addAccountSpy.params).toEqual({
+      name,
+      email,
+      password,
+      passwordConfirmation: password
+    })
   })
 })
