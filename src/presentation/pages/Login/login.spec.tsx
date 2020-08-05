@@ -75,7 +75,7 @@ describe('Login component', () => {
     Helper.populateField(sut, 'email',email)
 
     expect(validationSpy.fieldName).toEqual('email')
-    expect(validationSpy.fieldValue).toEqual(email)
+    expect(validationSpy.input[validationSpy.fieldName]).toEqual(email)
   })
 
   test('Should call Validation with correct password', () => {
@@ -85,7 +85,7 @@ describe('Login component', () => {
     Helper.populateField(sut, 'password', password)
 
     expect(validationSpy.fieldName).toEqual('password')
-    expect(validationSpy.fieldValue).toEqual(password)
+    expect(validationSpy.input[validationSpy.fieldName]).toEqual(password)
   })
 
   test('Should show email error if Validation fails', () => {

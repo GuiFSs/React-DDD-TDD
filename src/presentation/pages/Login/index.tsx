@@ -40,16 +40,18 @@ const Login: React.FC<Props> = ({ validation, authentication, saveAccessToken }:
   }, [state.emailError, state.passwordError])
 
   useEffect(() => {
+    const formData = { email: state.email }
     setState(prev => ({
       ...prev,
-      emailError: validation.validate('email', state.email)
+      emailError: validation.validate('email', formData)
     }))
   }, [state.email])
 
   useEffect(() => {
+    const formData = { password: state.password }
     setState(prev => ({
       ...prev,
-      passwordError: validation.validate('password', state.password)
+      passwordError: validation.validate('password', formData)
     }))
   }, [state.password])
 
