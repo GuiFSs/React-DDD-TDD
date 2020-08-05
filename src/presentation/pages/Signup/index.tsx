@@ -16,7 +16,7 @@ interface Props {
   saveAccessToken: SaveAccessToken
 }
 
-const Signup: React.FC<Props> = ({ validation, addAccount,saveAccessToken }: Props) => {
+const Signup: React.FC<Props> = ({ validation, addAccount, saveAccessToken }: Props) => {
   const history = useHistory()
   const [state, setState] = useState({
     isLoading: false,
@@ -61,12 +61,12 @@ const Signup: React.FC<Props> = ({ validation, addAccount,saveAccessToken }: Pro
   }, [state.password])
 
   useEffect(() => {
-    const formData = { passwordConfirmation: state.passwordConfirmation }
+    const formData = { passwordConfirmation: state.passwordConfirmation, password: state.password }
     setState(prev => ({
       ...prev,
       passwordConfirmationError: validation.validate('passwordConfirmation', formData)
     }))
-  }, [state.passwordConfirmation])
+  }, [state.passwordConfirmation, state.password])
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
