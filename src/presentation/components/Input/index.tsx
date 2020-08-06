@@ -28,9 +28,11 @@ const Input: React.FC<Props> = (props: Props) => {
     <div className={Styles.inputWrap} >
       <input
         {...props}
+        placeholder=" "
         data-testid={props.name}
         onChange={handleChange}
       />
+      <label htmlFor="input">{props.placeholder}</label>
       <span
         data-testid={`${props.name}-status`}
         title={title}
