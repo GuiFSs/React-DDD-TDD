@@ -17,29 +17,25 @@ const Input: React.FC<Props> = (props: Props) => {
 
   const error = useMemo(() => state[`${props.name}Error`], [props.name, state])
 
-  const { status, title } = useMemo(() => {
-    return {
-      status: error ? '🔴' : '🟢',
-      title: error || 'Tudo certo!'
-    }
-  }, [error])
-
   return (
-    <div className={Styles.inputWrap} >
+    <div
+      data-testid={`${props.name}-wrap`}
+      className={Styles.inputWrap}
+      data-status={error ? 'invalid' : 'valid'}
+    >
       <input
         {...props}
+        title={error}
         placeholder=" "
         data-testid={props.name}
         onChange={handleChange}
       />
-      <label htmlFor="input">{props.placeholder}</label>
-      <span
-        data-testid={`${props.name}-status`}
-        title={title}
-        className={Styles.status}
+      <label
+        data-testid={`${props.name}-label`}
+        title={error}
       >
-        {status}
-      </span>
+        {props.placeholder}
+      </label>
     </div>
   )
 }
