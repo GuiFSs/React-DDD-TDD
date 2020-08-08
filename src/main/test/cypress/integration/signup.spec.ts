@@ -72,4 +72,12 @@ describe('Signup', () => {
     FormHelper.testMainError('Algo de errado aconteceu. Tente novamente em breve.')
     FormHelper.testUrl('/signup')
   })
+
+  it('Should save accessToken if valid credentials are provided', () => {
+    Mock.mockOk()
+    simulateValidSubmit()
+    cy.getByTestId('error-wrap').should('not.have.descendants')
+    FormHelper.testUrl('/')
+    FormHelper.testLocalStorageItem('accessToken')
+  })
 })
