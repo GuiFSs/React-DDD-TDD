@@ -6,7 +6,7 @@ import { Authentication } from '@/domain/usecases'
 export class RemoteAuthentication implements Authentication {
   constructor (
     private readonly url: string,
-    private readonly httpPostClient: HttpPostClient<Authentication.Params, AccountModel>
+    private readonly httpPostClient: HttpPostClient<AccountModel>
   ) {}
 
   async auth (params: Authentication.Params): Promise<AccountModel> {
