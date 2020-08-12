@@ -15,7 +15,7 @@ const Icon: React.FC<Props> = ({ iconName, className }: Props) => {
   const iconColor = useMemo(() => iconName === IconName.thumbDown ? Styles.red : Styles.green ,[iconName])
   return (
     <div className={[Styles.iconWrap, iconColor, className].join(' ')}>
-      <img src={iconName} alt="thumb"/>
+      <img data-testid="icon" src={iconName} alt="thumb"/>
     </div>
   )
 }

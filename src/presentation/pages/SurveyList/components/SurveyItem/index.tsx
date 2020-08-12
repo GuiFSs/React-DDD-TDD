@@ -1,8 +1,22 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import Styles from './styles.scss'
 import Icon, { IconName } from '@/presentation/components/Icon'
+import { SurveyModel } from '@/domain/models'
 
-const SurveyItem: React.FC = () => {
+interface Props {
+  survey: SurveyModel
+}
+
+const SurveyItem: React.FC<Props> = ({ survey }: Props) => {
+  const { day, month, year } = useMemo(() => {
+    const { date } = survey
+    return {
+      day: date.getDate(),
+      month: date.toLocaleString('pt-BR', { month: 'short' }).replace('.', ''),
+      year: date.getFullYear()
+    }
+  }, [survey])
+
   return (
     <li>
       <div className={Styles.surveyItemWrap}>
@@ -11,11 +25,19 @@ const SurveyItem: React.FC = () => {
           className={Styles.iconWrap}
         />
         <time>
-          <span className={Styles.day}>22</span>
-          <span className={Styles.month}>03</span>
-          <span className={Styles.year}>22</span>
+          <span data-testid="day" className={Styles.day}>
+            {day}
+          </span>
+          <span data-testid="month" className={Styles.month}>
+            {month}
+          </span>
+          <span data-testid="year" className={Styles.year}>
+            {year}
+          </span>
         </time>
-        <p>Qual é seu framework web favorito?</p>
+        <p data-testid="question">
+          {survey.question}
+        </p>
       </div>
       <footer>Ver Resultado</footer>
     </li>
