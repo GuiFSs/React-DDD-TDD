@@ -1,22 +1,22 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useMemo,useContext } from 'react'
 import Styles from './styles.scss'
 import LoginHeader from '@/presentation/components/LoginHeader'
 import Footer from '@/presentation/components/Footer'
 import Input from '@/presentation/components/Input'
 import FormStatus from '@/presentation/components/FormStatus'
-import Context from '@/presentation/contexts/form/formContext'
+import { FormContext, ApiContext } from '@/presentation/contexts'
 import { Validation } from '@/presentation/protocols/validation'
-import { AddAccount, UpdateCurrentAccount } from '@/domain/usecases'
+import { AddAccount } from '@/domain/usecases'
 import { useHistory, Link } from 'react-router-dom'
 import SubmitButton from '@/presentation/components/SubmitButton'
 
 interface Props {
   validation: Validation
   addAccount: AddAccount
-  updateCurrentAccount: UpdateCurrentAccount
 }
 
-const Signup: React.FC<Props> = ({ validation, addAccount, updateCurrentAccount }: Props) => {
+const Signup: React.FC<Props> = ({ validation, addAccount }: Props) => {
+  const { setCurrentAccount } = useContext(ApiContext)
   const history = useHistory()
   const [state, setState] = useState({
     isLoading: false,
@@ -84,7 +84,7 @@ const Signup: React.FC<Props> = ({ validation, addAccount, updateCurrentAccount 
         password,
         passwordConfirmation
       })
-      await updateCurrentAccount.save(account)
+      setCurrentAccount(account)
       history.replace('/')
     } catch (error) {
       setState(prev => ({
@@ -98,7 +98,7 @@ const Signup: React.FC<Props> = ({ validation, addAccount, updateCurrentAccount 
   return (
     <div className={Styles.signupWrap} >
       <LoginHeader />
-      <Context.Provider value={{ state, setState }} >
+      <FormContext.Provider value={{ state, setState }} >
         <form data-testid="form" className={Styles.form} onSubmit={handleSubmit} >
           <h2>Criar Conta</h2>
           <Input
@@ -130,7 +130,7 @@ const Signup: React.FC<Props> = ({ validation, addAccount, updateCurrentAccount 
           </Link>
           <FormStatus />
         </form>
-      </Context.Provider>
+      </FormContext.Provider>
       <Footer />
     </div>
   )
