@@ -8,5 +8,6 @@ export const mockInvalidData = (): void => Helper.mockOk(url, 'POST',{
   invalid: faker.random.uuid()
 })
 export const mockOk = (): void => Helper.mockOk(url, 'POST',{
-  accessToken: faker.random.uuid()
+  accessToken: faker.random.uuid(),
+  name: faker.name.findName()
 })

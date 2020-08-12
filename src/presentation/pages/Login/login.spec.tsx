@@ -3,7 +3,7 @@ import faker from 'faker'
 import { createMemoryHistory } from 'history'
 import { render, RenderResult, cleanup, fireEvent, waitFor } from '@testing-library/react'
 import Login from '.'
-import { ValidationSpy, AuthenticationSpy, SaveAccessTokenMock, Helper } from '@/presentation/test'
+import { ValidationSpy, AuthenticationSpy, UpdateCurrentAccountMock, Helper } from '@/presentation/test'
 import { InvalidCredentialsError } from '@/domain/errors'
 import { Router } from 'react-router-dom'
 
@@ -11,7 +11,7 @@ interface SutTypes {
   sut: RenderResult
   validationSpy: ValidationSpy
   authenticationSpy: AuthenticationSpy
-  saveAccessTokenMock: SaveAccessTokenMock
+  updateCurrentAccountMock: UpdateCurrentAccountMock
 }
 
 interface SutParams {
@@ -24,13 +24,13 @@ const makeSut = (params?: SutParams): SutTypes => {
   const validationSpy = new ValidationSpy()
   validationSpy.errorMessage = params?.validationError
   const authenticationSpy = new AuthenticationSpy()
-  const saveAccessTokenMock = new SaveAccessTokenMock()
+  const updateCurrentAccountMock = new UpdateCurrentAccountMock()
   const sut = render(
     <Router history={history} >
       <Login
         validation={validationSpy}
         authentication={authenticationSpy}
-        saveAccessToken={saveAccessTokenMock}
+        updateCurrentAccount={updateCurrentAccountMock}
       />
     </Router>
   )
@@ -38,7 +38,7 @@ const makeSut = (params?: SutParams): SutTypes => {
     sut,
     validationSpy,
     authenticationSpy,
-    saveAccessTokenMock
+    updateCurrentAccountMock
   }
 }
 
@@ -93,7 +93,6 @@ describe('Login component', () => {
     const { sut } = makeSut({ validationError })
 
     Helper.populateField(sut, 'email')
-
     Helper.testStatusForField(sut, 'email', validationError)
   })
 
@@ -102,7 +101,6 @@ describe('Login component', () => {
     const { sut } = makeSut({ validationError })
 
     Helper.populateField(sut, 'password')
-
     Helper.testStatusForField(sut, 'password', validationError)
   })
 
@@ -110,7 +108,6 @@ describe('Login component', () => {
     const { sut } = makeSut()
 
     Helper.populateField(sut, 'email')
-
     Helper.testStatusForField(sut, 'email')
   })
 
@@ -118,7 +115,6 @@ describe('Login component', () => {
     const { sut } = makeSut()
 
     Helper.populateField(sut, 'password')
-
     Helper.testStatusForField(sut, 'password')
   })
 
@@ -127,7 +123,6 @@ describe('Login component', () => {
 
     Helper.populateField(sut, 'email')
     Helper.populateField(sut, 'password')
-
     Helper.testButtonIsDisabled(sut, 'submit', false)
   })
 
@@ -174,17 +169,17 @@ describe('Login component', () => {
   })
 
   test('Should call SaveAccessToken on success', async () => {
-    const { sut, authenticationSpy, saveAccessTokenMock } = makeSut()
+    const { sut, authenticationSpy, updateCurrentAccountMock } = makeSut()
     await simulateValidSubmit(sut)
-    expect(saveAccessTokenMock.accessToken).toBe(authenticationSpy.account.accessToken)
+    expect(updateCurrentAccountMock.account).toEqual(authenticationSpy.account)
     expect(history.length).toBe(1)
     expect(history.location.pathname).toBe('/')
   })
 
   test('Should present error if SaveAccessToken fails', async () => {
-    const { sut, saveAccessTokenMock } = makeSut()
+    const { sut, updateCurrentAccountMock } = makeSut()
     const error = new InvalidCredentialsError()
-    jest.spyOn(saveAccessTokenMock, 'save').mockRejectedValueOnce(error)
+    jest.spyOn(updateCurrentAccountMock, 'save').mockRejectedValueOnce(error)
     await simulateValidSubmit(sut)
     Helper.testElementText(sut, 'main-error', error.message)
     Helper.testChildCount(sut, 'error-wrap',1)
