@@ -4,7 +4,6 @@ module.exports = {
     '<rootDir>/src/**/*.{ts,tsx}',
     '!<rootDir>/src/main/**/*',
     '!<rootDir>/src/domain/**/index.ts',
-    '!<rootDir>/src/presentation/components/Router/**/*',
     '!**/*.d.ts',
   ],
   coverageDirectory: 'coverage',
