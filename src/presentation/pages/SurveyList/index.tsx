@@ -2,22 +2,30 @@ import React, { useEffect, useState } from 'react'
 import Styles from './styles.scss'
 import Footer from '@/presentation/components/Footer'
 import Header from '@/presentation/components/Header'
-import { SurveyItemEmpty, SurveyItem } from './components'
+import { SurveyListItem, SurveyError } from './components'
 import { LoadSurveyList } from '@/domain/usecases'
 import { SurveyModel } from '@/domain/models'
+import SurveyContext from './context/context'
 
 interface Props {
   loadSurveyList: LoadSurveyList
 }
 
+interface State {
+  surveys: SurveyModel[]
+  error: string
+}
+
 const SurveyList: React.FC<Props> = ({ loadSurveyList }: Props) => {
-  const [surveys, setSurveys] = useState<SurveyModel[]>([])
-  const [error, setError] = useState('')
+  const [state, setState] = useState<State>({
+    surveys: [],
+    error: ''
+  })
 
   useEffect(() => {
     loadSurveyList.loadAll()
-      .then(setSurveys)
-      .catch(err => setError(err.message))
+      .then(surveys => setState(prev => ({ ...prev, surveys })))
+      .catch(err => setState(prev => ({ ...prev, error: err.message })))
   }, [])
 
   return (
@@ -25,25 +33,9 @@ const SurveyList: React.FC<Props> = ({ loadSurveyList }: Props) => {
       <Header />
       <div className={Styles.contentWrap}>
         <h2>Enquetes</h2>
-        {error ? (
-          <div>
-            <span data-testid="error">
-              {error}
-            </span>
-            <button>Recarregar</button>
-          </div>
-        ) : (
-          <ul data-testid="survey-list">
-            {surveys.length ? surveys.map(survey => (
-              <SurveyItem
-                key={survey.id}
-                survey={survey}
-              />
-            )) : (
-              <SurveyItemEmpty />
-            )}
-          </ul>
-        )}
+        <SurveyContext.Provider value={{ state, setState }} >
+          {state.error ? <SurveyError /> : <SurveyListItem /> }
+        </SurveyContext.Provider>
       </div>
       <Footer />
     </div>
