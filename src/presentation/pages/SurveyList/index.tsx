@@ -12,10 +12,12 @@ interface Props {
 
 const SurveyList: React.FC<Props> = ({ loadSurveyList }: Props) => {
   const [surveys, setSurveys] = useState<SurveyModel[]>([])
+  const [error, setError] = useState('')
 
   useEffect(() => {
     loadSurveyList.loadAll()
       .then(setSurveys)
+      .catch(err => setError(err.message))
   }, [])
 
   return (
@@ -23,16 +25,25 @@ const SurveyList: React.FC<Props> = ({ loadSurveyList }: Props) => {
       <Header />
       <div className={Styles.contentWrap}>
         <h2>Enquetes</h2>
-        <ul data-testid="survey-list">
-          {surveys.length ? surveys.map(survey => (
-            <SurveyItem
-              key={survey.id}
-              survey={survey}
-            />
-          )) : (
-            <SurveyItemEmpty />
-          )}
-        </ul>
+        {error ? (
+          <div>
+            <span data-testid="error">
+              {error}
+            </span>
+            <button>Recarregar</button>
+          </div>
+        ) : (
+          <ul data-testid="survey-list">
+            {surveys.length ? surveys.map(survey => (
+              <SurveyItem
+                key={survey.id}
+                survey={survey}
+              />
+            )) : (
+              <SurveyItemEmpty />
+            )}
+          </ul>
+        )}
       </div>
       <Footer />
     </div>
