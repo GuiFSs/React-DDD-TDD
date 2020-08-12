@@ -8,12 +8,13 @@ interface Props {
 }
 
 const SurveyItem: React.FC<Props> = ({ survey }: Props) => {
-  const { day, month, year } = useMemo(() => {
-    const { date } = survey
+  const { day, month, year,iconName } = useMemo(() => {
+    const { date,didAnswer } = survey
     return {
-      day: date.getDate(),
+      day: date.getDate().toString().padStart(2, '0'),
       month: date.toLocaleString('pt-BR', { month: 'short' }).replace('.', ''),
-      year: date.getFullYear()
+      year: date.getFullYear(),
+      iconName: didAnswer ? IconName.thumbUp : IconName.thumbDown
     }
   }, [survey])
 
@@ -21,7 +22,7 @@ const SurveyItem: React.FC<Props> = ({ survey }: Props) => {
     <li>
       <div className={Styles.surveyItemWrap}>
         <Icon
-          iconName={IconName.thumbUp}
+          iconName={iconName}
           className={Styles.iconWrap}
         />
         <time>
