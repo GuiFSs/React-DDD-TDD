@@ -5,10 +5,10 @@ import { AccountModel } from '@/domain/models'
 export class AuthorizeHttpGetClientDecorator implements HttpGetClient {
   constructor (
     private readonly getStorage: GetStorage,
-    private readonly httpGetClientSpy: HttpGetClient
+    private readonly httpGetClient: HttpGetClient
   ) {}
 
-  async get (params: HttpGetClient.Params): Promise<HttpResponse> {
+  async get<T = any>(params: HttpGetClient.Params): Promise<HttpResponse<T>> {
     const account = this.getStorage.get<AccountModel>('account')
     if (account?.accessToken) {
       params = {
@@ -19,7 +19,6 @@ export class AuthorizeHttpGetClientDecorator implements HttpGetClient {
         }
       }
     }
-    await this.httpGetClientSpy.get(params)
-    return null
+    return await this.httpGetClient.get(params)
   }
 }
