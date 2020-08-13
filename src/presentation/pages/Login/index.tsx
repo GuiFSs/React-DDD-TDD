@@ -89,13 +89,11 @@ const Login: React.FC<Props> = ({ validation, authentication }: Props) => {
           <Input
             type="email"
             name="email"
-            id=""
             placeholder="Digite seu e-mail"
           />
           <Input
             type="password"
             name="password"
-            id=""
             placeholder="Digite sua senha"
           />
           <SubmitButton

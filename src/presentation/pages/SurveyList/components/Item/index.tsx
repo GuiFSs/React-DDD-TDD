@@ -20,24 +20,26 @@ const SurveyItem: React.FC<Props> = ({ survey }: Props) => {
 
   return (
     <li className={Styles.surveyItemWrap}>
-      <Icon
-        iconName={iconName}
-        className={Styles.iconWrap}
-      />
-      <time>
-        <span data-testid="day" className={Styles.day}>
-          {day}
-        </span>
-        <span data-testid="month" className={Styles.month}>
-          {month}
-        </span>
-        <span data-testid="year" className={Styles.year}>
-          {year}
-        </span>
-      </time>
-      <p data-testid="question">
-        {survey.question}
-      </p>
+      <div className={Styles.surveyContent} >
+        <Icon
+          iconName={iconName}
+          className={Styles.iconWrap}
+        />
+        <time>
+          <span data-testid="day" className={Styles.day}>
+            {day}
+          </span>
+          <span data-testid="month" className={Styles.month}>
+            {month}
+          </span>
+          <span data-testid="year" className={Styles.year}>
+            {year}
+          </span>
+        </time>
+        <p data-testid="question">
+          {survey.question}
+        </p>
+      </div>
       <footer>Ver Resultado</footer>
     </li>
   )
