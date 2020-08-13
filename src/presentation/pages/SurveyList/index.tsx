@@ -4,7 +4,6 @@ import Footer from '@/presentation/components/Footer'
 import Header from '@/presentation/components/Header'
 import { SurveyListItem, SurveyError } from './components'
 import { LoadSurveyList } from '@/domain/usecases'
-import { SurveyModel } from '@/domain/models'
 import SurveyContext from './context/context'
 
 interface Props {
@@ -12,7 +11,7 @@ interface Props {
 }
 
 interface State {
-  surveys: SurveyModel[]
+  surveys: LoadSurveyList.Model[]
   error: string
   reload: boolean
 }

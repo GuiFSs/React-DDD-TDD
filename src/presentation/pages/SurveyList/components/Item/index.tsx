@@ -1,10 +1,10 @@
 import React, { useMemo } from 'react'
 import Styles from './styles.scss'
 import Icon, { IconName } from '@/presentation/components/Icon'
-import { SurveyModel } from '@/domain/models'
+import { LoadSurveyList } from '@/domain/usecases'
 
 interface Props {
-  survey: SurveyModel
+  survey: LoadSurveyList.Model
 }
 
 const SurveyItem: React.FC<Props> = ({ survey }: Props) => {

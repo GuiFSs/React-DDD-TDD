@@ -3,14 +3,15 @@ import Signup from '.'
 import { createMemoryHistory } from 'history'
 import { Router } from 'react-router-dom'
 import { screen,render, fireEvent, waitFor } from '@testing-library/react'
-import { Helper, ValidationSpy,AddAccountSpy } from '@/presentation/test'
+import { Helper, ValidationSpy } from '@/presentation/test'
 import faker from 'faker'
 import { EmailInUseError } from '@/domain/errors'
-import { AccountModel } from '@/domain/models'
 import { ApiContext } from '@/presentation/contexts'
+import { AddAccount } from '@/domain/usecases'
+import { AddAccountSpy } from '@/domain/test'
 interface SutTypes {
   addAccountSpy: AddAccountSpy
-  setCurrentAccountMock: (account: AccountModel) => void
+  setCurrentAccountMock: (account: AddAccount.Model) => void
 }
 
 interface SutParams {
