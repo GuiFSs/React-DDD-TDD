@@ -1,8 +1,8 @@
-import { LoadSurveyList } from '@/domain/usecases'
+import { AddAccount } from '@/domain/usecases'
 import { makeAxiosHttpClient } from '@/main/factories/http/axios-http-client-factory'
 import { makeApiUrl } from '@/main/factories/http/api-url-factory'
-import { RemoteLoadSurveyList } from '@/data/usecases/load-survey-list/remote-load-survey-list'
+import { RemoteAddAccount } from '@/data/usecases/add-account/remote-add-account'
 
-export const makeRemoteLoadSurveyList = (): LoadSurveyList => {
-  return new RemoteLoadSurveyList(makeApiUrl('/surveys'), makeAxiosHttpClient())
+export const makeRemoteAddAccount = (): AddAccount => {
+  return new RemoteAddAccount(makeApiUrl('/signup'), makeAxiosHttpClient())
 }
