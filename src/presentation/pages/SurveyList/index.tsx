@@ -14,19 +14,21 @@ interface Props {
 interface State {
   surveys: SurveyModel[]
   error: string
+  reload: boolean
 }
 
 const SurveyList: React.FC<Props> = ({ loadSurveyList }: Props) => {
   const [state, setState] = useState<State>({
     surveys: [],
-    error: ''
+    error: '',
+    reload: false
   })
 
   useEffect(() => {
     loadSurveyList.loadAll()
       .then(surveys => setState(prev => ({ ...prev, surveys })))
       .catch(err => setState(prev => ({ ...prev, error: err.message })))
-  }, [])
+  }, [state.reload])
 
   return (
     <div className={Styles.surveyWrap} >
