@@ -1,3 +1,3 @@
 export interface GetStorage {
-  get: <T>(key: string) => T
+  get: <T = any>(key: string) => T
 }
