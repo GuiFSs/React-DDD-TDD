@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/GuiFSs/React-DDD-TDD.svg?branch=master)](https://travis-ci.org/GuiFSs/React-DDD-TDD) [![Coverage Status](https://coveralls.io/repos/github/GuiFSs/React-DDD-TDD/badge.svg?branch=master)](https://coveralls.io/github/GuiFSs/React-DDD-TDD?branch=master)
+[![Build Status](https://travis-ci.org/GuiFSs/React-DDD-TDD.svg?branch=master)](https://travis-ci.org/GuiFSs/React-DDD-TDD) [![Coverage Status](https://coveralls.io/repos/github/GuiFSs/React-DDD-TDD/badge.svg?branch=master)](https://coveralls.io/github/GuiFSs/React-DDD-TDD?branch=master) [![Known Vulnerabilities](https://snyk.io/test/github/GuiFSs/React-DDD-TDD/badge.svg?targetFile=package.json)](https://snyk.io/test/github/GuiFSs/React-DDD-TDD?targetFile=package.json)
 
 # **4Dev React - Enquetes para Programadores**
 
