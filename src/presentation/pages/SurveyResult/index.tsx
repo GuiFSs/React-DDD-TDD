@@ -4,13 +4,19 @@ import Header from '@/presentation/components/Header'
 import Footer from '@/presentation/components/Footer'
 import Styles from './styles.scss'
 import Loading from '@/presentation/components/Loading'
+import Calendar from '@/presentation/components/Calendar'
 
 const SurveyResult: React.FC = () => {
   return (
     <div className={Styles.surveyResultWrap} >
       <Header />
       <div className={Styles.contentWrap}>
-        <h2>Qual seu framework favorito?</h2>
+        <hgroup>
+          <Calendar
+            date={new Date()} className={Styles.calendarWrap}
+          />
+          <h2>Qual seu framework favorito?</h2>
+        </hgroup>
         <FlipMove className={Styles.answersList}>
           <li key="1" >
             <img src=""/>
