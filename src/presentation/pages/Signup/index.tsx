@@ -36,37 +36,19 @@ const Signup: React.FC<Props> = ({ validation, addAccount }: Props) => {
     return !!nameError || !!emailError || !!passwordError || !!passwordConfirmationError
   }, [state])
 
-  useEffect(() => {
-    const formData = { name: state.name }
-    setState(prev => ({
-      ...prev,
-      nameError: validation.validate('name', formData)
-    }))
-  }, [state.name])
+  useEffect(() => { validate('name') }, [state.name])
+  useEffect(() => { validate('email') }, [state.email])
+  useEffect(() => { validate('password') }, [state.password])
+  useEffect(() => { validate('passwordConfirmation') }, [state.passwordConfirmation])
 
-  useEffect(() => {
-    const formData = { email: state.email }
+  const validate = (field: string): void => {
+    const { password, email, name, passwordConfirmation } = state
+    const formData = { password, email, name, passwordConfirmation }
     setState(prev => ({
       ...prev,
-      emailError: validation.validate('email', formData)
+      [`${field}Error`]: validation.validate(field, formData)
     }))
-  }, [state.email])
-
-  useEffect(() => {
-    const formData = { password: state.password }
-    setState(prev => ({
-      ...prev,
-      passwordError: validation.validate('password', formData)
-    }))
-  }, [state.password])
-
-  useEffect(() => {
-    const formData = { passwordConfirmation: state.passwordConfirmation, password: state.password }
-    setState(prev => ({
-      ...prev,
-      passwordConfirmationError: validation.validate('passwordConfirmation', formData)
-    }))
-  }, [state.passwordConfirmation, state.password])
+  }
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
