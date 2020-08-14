@@ -2,19 +2,18 @@ import React, { useMemo } from 'react'
 import Styles from './styles.scss'
 import Icon, { IconName } from '@/presentation/components/Icon'
 import { LoadSurveyList } from '@/domain/usecases'
+import Calendar from '@/presentation/components/Calendar'
 
 interface Props {
   survey: LoadSurveyList.Model
 }
 
 const SurveyItem: React.FC<Props> = ({ survey }: Props) => {
-  const { day, month, year,iconName } = useMemo(() => {
+  const { iconName, surveyDate } = useMemo(() => {
     const { date,didAnswer } = survey
     return {
-      day: date.getDate().toString().padStart(2, '0'),
-      month: date.toLocaleString('pt-BR', { month: 'short' }).replace('.', ''),
-      year: date.getFullYear(),
-      iconName: didAnswer ? IconName.thumbUp : IconName.thumbDown
+      iconName: didAnswer ? IconName.thumbUp : IconName.thumbDown,
+      surveyDate: date
     }
   }, [survey])
 
@@ -25,17 +24,10 @@ const SurveyItem: React.FC<Props> = ({ survey }: Props) => {
           iconName={iconName}
           className={Styles.iconWrap}
         />
-        <time>
-          <span data-testid="day" className={Styles.day}>
-            {day}
-          </span>
-          <span data-testid="month" className={Styles.month}>
-            {month}
-          </span>
-          <span data-testid="year" className={Styles.year}>
-            {year}
-          </span>
-        </time>
+        <Calendar
+          className={Styles.calendarWrap}
+          date={surveyDate}
+        />
         <p data-testid="question">
           {survey.question}
         </p>
