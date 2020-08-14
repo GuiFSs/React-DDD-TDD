@@ -7,3 +7,4 @@ public
 webpack.*.js
 *.scss
 *.json
+index.js
