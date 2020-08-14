@@ -89,6 +89,8 @@ describe('Signup', () => {
     mockSuccess()
     populateFields()
     cy.getByTestId('submit').dblclick()
+    // below line is necessary, otherwise it doesn't work on CI/CD with Travis (maybe others too)
+    cy.wait('@request')
     Helper.testHttpCallsCount(1)
   })
 
