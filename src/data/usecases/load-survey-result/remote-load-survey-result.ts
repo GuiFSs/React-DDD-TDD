@@ -1,7 +1,7 @@
 import { HttpClient, HttpStatusCode } from '@/data/protocols/http'
 import { AccessDeniedError, UnexpectedError } from '@/domain/errors'
 import { LoadSurveyResult } from '@/domain/usecases'
-import { SurveyResultAnswerModel } from '@/domain/models'
+import { RemoteSurveyResultModel } from '@/data/models'
 
 export class RemoteLoadSurveyResult implements LoadSurveyResult {
   constructor (
@@ -27,10 +27,5 @@ export class RemoteLoadSurveyResult implements LoadSurveyResult {
 }
 
 export namespace RemoteLoadSurveyResult {
-  export interface Model {
-    id: string
-    date: string
-    question: string
-    answers: SurveyResultAnswerModel[]
-  }
+  export type Model = RemoteSurveyResultModel
 }
