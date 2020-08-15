@@ -1,41 +1,29 @@
 import faker from 'faker'
-import { HttpPostClient, HttpResponse, HttpStatusCode, HttpGetClient } from '@/data/protocols/http/'
+import { HttpResponse, HttpStatusCode, HttpClient } from '@/data/protocols/http/'
 
-export const mockPostRequest = (): HttpPostClient.Params => ({
+export const mockHttpRequest = (): HttpClient.Request => ({
   url: faker.internet.url(),
-  body: faker.random.objectElement()
-})
-
-export const mockGetRequest = (): HttpGetClient.Params => ({
-  url: faker.internet.url(),
+  method: faker.random.arrayElement(['get', 'post', 'put', 'delete']),
+  body: faker.random.objectElement(),
   headers: faker.random.objectElement()
+
 })
 
-export class HttpPostClientSpy<R = any> implements HttpPostClient<R> {
+export class HttpClientSpy<R = any> implements HttpClient<R> {
   url?: string
+  method?: string
+  headers?: string
   body?: any
   response: HttpResponse<R> = {
     statusCode: HttpStatusCode.ok
   }
 
-  async post (params: HttpPostClient.Params): Promise<HttpResponse<R>> {
-    const { url, body } = params
+  async request (data: HttpClient.Request): Promise<HttpResponse<R>> {
+    const { url, body, method, headers } = data
     this.url = url
     this.body = body
-    return this.response
-  }
-}
-
-export class HttpGetClientSpy<R = any> implements HttpGetClient<R> {
-  url: string
-  headers?: any
-  response: HttpResponse<R> = {
-    statusCode: HttpStatusCode.ok
-  }
-
-  async get (params: HttpGetClient.Params): Promise<HttpResponse<R>> {
-    this.url = params.url
-    this.headers = params.headers
+    this.method = method
+    this.headers = headers
     return this.response
   }
 }
