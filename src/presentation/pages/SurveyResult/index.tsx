@@ -7,20 +7,26 @@ import Loading from '@/presentation/components/Loading'
 import Calendar from '@/presentation/components/Calendar'
 import { LoadSurveyResult } from '@/domain/usecases'
 import Error from '@/presentation/components/Error'
+import { useErrorHandler } from '@/presentation/hooks'
 
 interface Props {
   loadSurveyResult: LoadSurveyResult
 }
 
 const SurveyResult: React.FC<Props> = ({ loadSurveyResult }: Props) => {
+  const handleError = useErrorHandler(({ message }) => {
+    setError(message)
+    setSurveyResult(null)
+  })
+
   const [isLoading] = useState(false)
-  const [error] = useState('')
+  const [error, setError] = useState('')
   const [surveyResult, setSurveyResult] = useState<LoadSurveyResult.Model>(null)
 
   useEffect(() => {
     loadSurveyResult.load()
       .then(setSurveyResult)
-      .catch()
+      .catch(handleError)
   }, [])
 
   return (
