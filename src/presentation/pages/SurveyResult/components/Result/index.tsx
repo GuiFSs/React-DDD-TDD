@@ -4,6 +4,7 @@ import Calendar from '@/presentation/components/Calendar'
 import { LoadSurveyResult } from '@/domain/usecases'
 import { useHistory } from 'react-router-dom'
 import Styles from './styles.scss'
+import { SurveyResultAnswer } from '..'
 
 interface Props {
   surveyResult: LoadSurveyResult.Model
@@ -22,22 +23,12 @@ const Result: React.FC<Props> = ({ surveyResult }: Props) => {
         </h2>
       </hgroup>
       <FlipMove data-testid="answers" className={Styles.answersList}>
-        {surveyResult.answers.map(({ answer, image, percent, isCurrentAccountAnswer }, i) => (
-          <li
-            data-testid="answer-wrap"
-            key={`${answer}-${i}`}
-            className={isCurrentAccountAnswer ? Styles.active : ''}
-          >
-            {image && (
-              <img data-testid="image" src={image} alt={answer} />
-            )}
-            <span data-testid="answer" className={Styles.answer}>
-              {answer}
-            </span>
-            <span data-testid="percent" className={Styles.percent}>
-              {percent}%
-            </span>
-          </li>
+        {surveyResult.answers.map((answer, i) => (
+          <div key={`${answer.answer}-${i}`}>
+            <SurveyResultAnswer
+              answer={answer}
+            />
+          </div>
         ))}
       </FlipMove>
       <button
