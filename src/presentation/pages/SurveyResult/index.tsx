@@ -15,8 +15,9 @@ interface Props {
 
 const SurveyResult: React.FC<Props> = ({ loadSurveyResult , saveSurveyResult }: Props) => {
   const handleError = useErrorHandler(({ message }) => {
-    setError(message)
     setSurveyResult(null)
+    setError(message)
+    setIsLoading(false)
   })
 
   const [isLoading, setIsLoading] = useState(false)
@@ -39,7 +40,7 @@ const SurveyResult: React.FC<Props> = ({ loadSurveyResult , saveSurveyResult }: 
     setIsLoading(true)
     saveSurveyResult.save({ answer })
       .then()
-      .catch()
+      .catch(handleError)
   }
 
   return (
