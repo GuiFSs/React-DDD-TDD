@@ -4,8 +4,8 @@ export interface LoadSurveyResult {
 
 export namespace LoadSurveyResult {
   export interface Model {
-    id: string
     date: Date
+    question: string
     answers: Array<{
       image?: string
       answer: string

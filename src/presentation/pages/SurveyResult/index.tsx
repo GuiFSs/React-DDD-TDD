@@ -15,13 +15,13 @@ interface Props {
 const SurveyResult: React.FC<Props> = ({ loadSurveyResult }: Props) => {
   const [isLoading] = useState(false)
   const [error] = useState('')
-  const [surveyResult] = useState<LoadSurveyResult.Model>(null)
+  const [surveyResult, setSurveyResult] = useState<LoadSurveyResult.Model>(null)
 
   useEffect(() => {
     loadSurveyResult.load()
-      .then()
+      .then(setSurveyResult)
       .catch()
-  })
+  }, [])
 
   return (
     <div className={Styles.surveyResultWrap} >
@@ -31,26 +31,30 @@ const SurveyResult: React.FC<Props> = ({ loadSurveyResult }: Props) => {
           <>
             <hgroup>
               <Calendar
-                date={new Date()} className={Styles.calendarWrap}
+                date={surveyResult.date} className={Styles.calendarWrap}
               />
-              <h2>Qual seu framework favorito?</h2>
+              <h2 data-testid="question">
+                {surveyResult.question}
+              </h2>
             </hgroup>
-            <FlipMove className={Styles.answersList}>
-              <li key="1" >
-                <img src=""/>
-                <span className={Styles.answer}>ReactJs</span>
-                <span className={Styles.percent}>50%</span>
-              </li>
-              <li key="2" className={Styles.active} >
-                <img src=""/>
-                <span className={Styles.answer}>ReactJs</span>
-                <span className={Styles.percent}>50%</span>
-              </li>
-              <li key="3">
-                <img src=""/>
-                <span className={Styles.answer}>ReactJs</span>
-                <span className={Styles.percent}>50%</span>
-              </li>
+            <FlipMove data-testid="answers" className={Styles.answersList}>
+              {surveyResult.answers.map(({ answer, image, percent, isCurrentAccountAnswer }) => (
+                <li
+                  data-testid="answer-wrap"
+                  key={answer}
+                  className={isCurrentAccountAnswer ? Styles.active : ''}
+                >
+                  {image && (
+                    <img data-testid="image" src={image} alt={answer} />
+                  )}
+                  <span data-testid="answer" className={Styles.answer}>
+                    {answer}
+                  </span>
+                  <span data-testid="percent" className={Styles.percent}>
+                    {percent}%
+                  </span>
+                </li>
+              ))}
             </FlipMove>
             <button>Voltar</button>
           </>

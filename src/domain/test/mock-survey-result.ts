@@ -2,21 +2,21 @@ import faker from 'faker'
 import { LoadSurveyResult } from '@/domain/usecases'
 
 export const mockSurveyResultModel = (): LoadSurveyResult.Model => ({
-  id: faker.random.uuid(),
   date: faker.date.recent(),
+  question: faker.random.words(),
   answers: [
     {
       image: faker.internet.url(),
       answer: faker.random.word(),
       count: faker.random.number(),
       percent: faker.random.number(100),
-      isCurrentAccountAnswer: faker.random.boolean()
+      isCurrentAccountAnswer: true
     },
     {
       answer: faker.random.word(),
       count: faker.random.number(),
       percent: faker.random.number(100),
-      isCurrentAccountAnswer: faker.random.boolean()
+      isCurrentAccountAnswer: false
     }
   ]
 })
