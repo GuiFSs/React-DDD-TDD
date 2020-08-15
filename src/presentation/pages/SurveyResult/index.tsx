@@ -50,10 +50,10 @@ const SurveyResult: React.FC<Props> = ({ loadSurveyResult }: Props) => {
               </h2>
             </hgroup>
             <FlipMove data-testid="answers" className={Styles.answersList}>
-              {surveyResult.answers.map(({ answer, image, percent, isCurrentAccountAnswer }) => (
+              {surveyResult.answers.map(({ answer, image, percent, isCurrentAccountAnswer }, i) => (
                 <li
                   data-testid="answer-wrap"
-                  key={answer}
+                  key={`${answer}-${i}`}
                   className={isCurrentAccountAnswer ? Styles.active : ''}
                 >
                   {image && (
