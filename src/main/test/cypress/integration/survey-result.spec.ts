@@ -43,16 +43,22 @@ describe('SurveyResult', () => {
     cy.getByTestId('month').should('have.text', 'fev')
     cy.getByTestId('year').should('have.text', '2018')
     cy.get('li:nth-child(1)').then(li => {
-      console.log({ li })
       assert.equal(li.find('[data-testid="answer"]').text(), 'any_answer')
       assert.equal(li.find('[data-testid="percent"]').text(), '70%')
       assert.equal(li.find('[data-testid="image"]').attr('src'), 'any_image')
     })
     cy.get('li:nth-child(2)').then(li => {
-      console.log({ li })
       assert.equal(li.find('[data-testid="answer"]').text(), 'any_answer_2')
       assert.equal(li.find('[data-testid="percent"]').text(), '30%')
       assert.notExists(li.find('[data-testid="image"]'))
     })
+  })
+
+  it('Should goto SurveyList on back button click', () => {
+    cy.visit('')
+    mockSuccess()
+    cy.visit(visitUrl)
+    cy.getByTestId('back-button').click()
+    Helper.testUrl('/')
   })
 })
