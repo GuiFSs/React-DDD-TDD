@@ -1,5 +1,4 @@
 import React from 'react'
-// import FlipMove from 'react-flip-move'
 import Calendar from '@/presentation/components/Calendar'
 import { LoadSurveyResult } from '@/domain/usecases'
 import { useHistory } from 'react-router-dom'
