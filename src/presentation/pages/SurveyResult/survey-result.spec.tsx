@@ -120,10 +120,18 @@ describe('SurveyResult Component', () => {
     await waitFor(() => screen.getByTestId('survey-result'))
   })
 
-  test('Should go to SurveyList on back button click', async () => {
+  test('Should goto SurveyList on back button click', async () => {
     const { history } = makeSut()
     await waitFor(() => screen.getByTestId('survey-result'))
     fireEvent.click(screen.getByTestId('back-button'))
     expect(history.location.pathname).toBe('/')
+  })
+
+  test('Should not present Loading on active answer click', async () => {
+    makeSut()
+    await waitFor(() => screen.getByTestId('survey-result'))
+    const answersWrap = screen.queryAllByTestId('answer-wrap')
+    fireEvent.click(answersWrap[0])
+    expect(screen.queryByTestId('loading')).not.toBeInTheDocument()
   })
 })
