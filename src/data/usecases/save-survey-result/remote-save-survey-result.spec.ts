@@ -4,6 +4,7 @@ import { HttpClientSpy, mockRemoteSurveyResultModel } from '@/data/test'
 import { HttpStatusCode } from '@/data/protocols/http'
 import { mockSaveSurveyResultParams } from '@/domain/test'
 import { AccessDeniedError, UnexpectedError } from '@/domain/errors'
+import { SaveSurveyResult } from '@/domain/usecases'
 
 interface SutTypes {
   sut: RemoteSaveSurveyResult
@@ -59,5 +60,19 @@ describe('RemoteSaveSurveyResult', () => {
     }
     const promise = sut.save(mockSaveSurveyResultParams())
     await expect(promise).rejects.toThrow(new UnexpectedError())
+  })
+
+  test('Should return a SurveyResult on 200', async () => {
+    const { sut, httpClientSpy } = makeSut()
+    const httpResult = mockRemoteSurveyResultModel()
+    httpClientSpy.response = {
+      statusCode: HttpStatusCode.ok,
+      body: httpResult
+    }
+    const httpResponse = await sut.save(mockSaveSurveyResultParams())
+    expect(httpResponse).toStrictEqual<SaveSurveyResult.Model>({
+      ...httpResult,
+      date: new Date(httpResult.date)
+    })
   })
 })
