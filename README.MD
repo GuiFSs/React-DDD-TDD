@@ -14,6 +14,8 @@ O objetivo do treinamento é mostrar como criar um sistema em ReactJs utilizando
 
 ## [**Link para a documentação da API**](http://fordevs.herokuapp.com/api-docs)
 
+## [**Link para o site criado no curso**](https://fordevs-react-tdd.herokuapp.com/)
+
 > ## Princípios
 
 - Single Responsibility Principle (SRP)
