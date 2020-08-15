@@ -4,6 +4,7 @@ import { RemoteLoadSurveyResult } from '@/data/usecases'
 export const mockRemoteSurveyResultModel = (): RemoteLoadSurveyResult.Model => ({
   id: faker.random.uuid(),
   date: faker.date.recent().toISOString(),
+  question: faker.random.words(),
   answers: [
     {
       image: faker.internet.url(),
